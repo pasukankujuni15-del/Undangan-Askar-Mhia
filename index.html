@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Pernikahan Bugis - Askar & Mhia</title>
+    <!-- Font Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@500;600;700&family=Noto+Sans+Buginese&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #120305;
+            --card-bg: #fffdf9;
+            --bugis-red: #580a14;
+            --bugis-red-light: #7a121e;
+            --accent-gold: #c59b27;
+            --bright-gold: #f3d375;
+            --text-dark: #2a1518;
+            --border-gold: #d4af37;
+            --light-gold: #fbf6e9;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 15px 10px;
+            /* Motif Sarung Sabbe Sutra Bugis */
+            background-image: 
+                linear-gradient(to right, rgba(212, 175, 55, 0.08) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(212, 175, 55, 0.08) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 420px;
+            min-height: 650px;
+            background-color: var(--card-bg);
+            border: 6px double var(--border-gold);
+            border-radius: 20px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.85), inset 0 0 20px rgba(212, 175, 55, 0.3);
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* ORNAMEN BUGIS SULANG MINGGI */
+        .corner-ornament {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            z-index: 10;
+            pointer-events: none;
+        }
+        .top-left { top: 10px; left: 10px; border-top: 3px solid var(--border-gold); border-left: 3px solid var(--border-gold); }
+        .top-right { top: 10px; right: 10px; border-top: 3px solid var(--border-gold); border-right: 3px solid var(--border-gold); }
+        .bottom-left { bottom: 10px; left: 10px; border-bottom: 3px solid var(--border-gold); border-left: 3px solid var(--border-gold); }
+        .bottom-right { bottom: 10px; right: 10px; border-bottom: 3px solid var(--border-gold); border-right: 3px solid var(--border-gold); }
+
+        /* SISTEM HALAMAN */
+        .page {
+            display: none;
+            width: 100%;
+            flex-direction: column;
+            justify-content: space-between;
+            text-align: center;
+            animation: fadeIn 0.5s ease-in-out;
+            flex-grow: 1;
+        }
+
+        .page.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* HEADER DEKORASI */
+        .cover-header, .header-banner {
+            background: linear-gradient(135deg, #42060e, var(--bugis-red-light), #42060e);
+            padding: 30px 20px 20px 20px;
+            color: #ffffff;
+            border-bottom: 4px solid var(--border-gold);
+            clip-path: ellipse(120% 100% at 50% 0%);
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            flex-shrink: 0;
+        }
+
+        .lontara-text {
+            font-family: 'Noto Sans Buginese', serif;
+            font-size: 16px;
+            color: var(--bright-gold);
+            letter-spacing: 3px;
+            margin-bottom: 4px;
+        }
+
+        .bugis-sub {
+            font-family: 'Cinzel', serif;
+            font-size: 11px;
+            letter-spacing: 4px;
+            color: #ffffff;
+            text-transform: uppercase;
+        }
+
+        .cover-names, .names-header {
+            font-family: 'Alex Brush', cursive;
+            font-size: 52px;
+            color: var(--bright-gold);
+            margin-top: 4px;
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
+        }
+
+        .date-badge {
+            font-family: 'Cinzel', serif;
+            font-size: 12px;
+            letter-spacing: 2px;
+            color: #ffffff;
+            margin-top: 4px;
+            text-transform: uppercase;
+        }
+
+        .cover-body {
+            padding: 25px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-grow: 1;
+            justify-content: center;
+            background-image: 
+                radial-gradient(circle, rgba(212, 175, 55, 0.1) 1px, transparent 1px),
+                linear-gradient(to right, rgba(197, 155, 39, 0.04) 1px, transparent 1px);
+            background-size: 12px 12px, 20px 20px;
+        }
+
+        .cover-photo-frame {
+            width: 220px;
+            height: 270px;
+            border: 4px solid var(--border-gold);
+            border-radius: 110px 110px 15px 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(88, 10, 20, 0.5), 0 0 0 6px var(--light-gold), 0 0 0 8px var(--border-gold);
+            margin-bottom: 20px;
+            background-color: var(--bugis-red);
+        }
+
+        .cover-photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .guest-card {
+            background: linear-gradient(135deg, var(--light-gold), #fff);
+            border: 2px solid var(--border-gold);
+            border-radius: 12px;
+            padding: 12px 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .guest-card::before {
+            content: "❖";
+            color: var(--accent-gold);
+            position: absolute;
+            top: -10px;
+            left: calc(50% - 6px);
+            background: var(--card-bg);
+            padding: 0 4px;
+            font-size: 12px;
+        }
+
+        .content {
+            padding: 20px 18px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        /* MEMPELAI & ORANG TUA */
+        .couple-section {
+            margin: 15px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .mempelai-card {
+            background: var(--light-gold);
+            border: 1px solid var(--border-gold);
+            border-radius: 12px;
+            padding: 14px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.04);
+        }
+
+        .mempelai-name {
+            font-family: 'Cinzel', serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--bugis-red);
+        }
+
+        .mempelai-parents {
+            font-size: 12px;
+            color: #555;
+            margin-top: 6px;
+            line-height: 1.5;
+        }
+
+        .mempelai-parents strong {
+            color: var(--accent-gold);
+            font-weight: 600;
+        }
+
+        .ampersand {
+            font-family: 'Alex Brush', cursive;
+            font-size: 32px;
+            color: var(--accent-gold);
+            margin: -8px 0;
+        }
+
+        /* COUNTDOWN TIMER */
+        .countdown-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .timer-box {
+            background: linear-gradient(135deg, var(--bugis-red), #3d050c);
+            border: 2px solid var(--border-gold);
+            border-radius: 10px;
+            width: 68px;
+            padding: 10px 2px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+        }
+
+        .timer-number {
+            font-family: 'Cinzel', serif;
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--bright-gold);
+            display: block;
+        }
+
+        .timer-label {
+            font-size: 9px;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 2px;
+            display: block;
+        }
+
+        /* ISI UNDANGAN */
+        .ayat-box {
+            font-size: 12px;
+            font-style: italic;
+            color: #4a282d;
+            line-height: 1.6;
+            margin-bottom: 10px;
+            padding: 0 5px;
+        }
+
+        .ayat-title {
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 11px;
+            color: var(--accent-gold);
+            margin-top: 6px;
+            display: block;
+        }
+
+        .divider {
+            height: 2px;
+            background: linear-gradient(to right, transparent, var(--border-gold), transparent);
+            margin: 15px auto;
+            width: 80%;
+        }
+
+        .details-box {
+            background-color: var(--light-gold);
+            border: 1px solid var(--border-gold);
+            border-radius: 12px;
+            padding: 18px 15px;
+            margin: 12px 0;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+        }
+
+        .details-box h3 {
+            font-family: 'Cinzel', serif;
+            color: var(--bugis-red);
+            font-size: 16px;
+            margin-bottom: 10px;
+            text-align: center;
+            letter-spacing: 1.5px;
+        }
+
+        .detail-item {
+            margin: 10px 0;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .detail-item strong {
+            color: var(--accent-gold);
+            display: block;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 3px;
+        }
+
+        /* AMPLOP DIGITAL */
+        .gift-container {
+            margin-top: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .bank-card {
+            background: linear-gradient(135deg, #ffffff, var(--light-gold));
+            border: 1px solid var(--border-gold);
+            border-radius: 10px;
+            padding: 14px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+            text-align: left;
+        }
+
+        .bank-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .bank-name {
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--bugis-red);
+        }
+
+        .account-number {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 15px;
+            font-weight: bold;
+            color: #333;
+            letter-spacing: 1px;
+        }
+
+        .account-holder {
+            font-size: 11px;
+            color: #666;
+            margin-top: 2px;
+        }
+
+        .btn-copy {
+            background: var(--bugis-red);
+            color: var(--bright-gold);
+            border: none;
+            padding: 6px 14px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* RSVP & BUKU UCAPAN */
+        .rsvp-form {
+            background-color: var(--light-gold);
+            border: 1px solid var(--border-gold);
+            border-radius: 12px;
+            padding: 14px;
+            margin-top: 10px;
+            text-align: left;
+        }
+
+        .form-group {
+            margin-bottom: 10px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 11px;
+            font-weight: bold;
+            color: var(--bugis-red);
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 9px;
+            border: 1px solid var(--border-gold);
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 12px;
+            background-color: #fff;
+        }
+
+        .wishes-container {
+            margin-top: 12px;
+            max-height: 180px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            text-align: left;
+        }
+
+        .wish-card {
+            background: #fff;
+            border-left: 3px solid var(--accent-gold);
+            border-radius: 6px;
+            padding: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .wish-name {
+            font-weight: bold;
+            font-size: 12px;
+            color: var(--bugis-red);
+        }
+
+        .wish-status {
+            font-size: 9px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            background: var(--light-gold);
+            color: var(--accent-gold);
+            font-weight: bold;
+            margin-left: 5px;
+        }
+
+        .wish-text {
+            font-size: 11px;
+            color: #444;
+            margin-top: 4px;
+            line-height: 1.4;
+        }
+
+        /* PENUTUP */
+        .closing-box {
+            margin-top: 18px;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--bugis-red), #3d050c);
+            border: 1px solid var(--border-gold);
+            border-radius: 12px;
+            color: #fff;
+            text-align: center;
+        }
+
+        /* TOMBOL NAVIGASI */
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--bugis-red), #3d050c);
+            color: var(--bright-gold);
+            text-decoration: none;
+            padding: 10px 18px;
+            border-radius: 30px;
+            font-family: 'Cinzel', serif;
+            font-size: 11px;
+            letter-spacing: 1px;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            border: 1px solid var(--border-gold);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: var(--accent-gold);
+            color: #ffffff;
+        }
+
+        .nav-footer {
+            background: linear-gradient(135deg, var(--bugis-red), #3d050c);
+            padding: 12px;
+            border-top: 2px solid var(--border-gold);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Ukiran Sudut Bugis -->
+        <div class="corner-ornament top-left"></div>
+        <div class="corner-ornament top-right"></div>
+        <div class="corner-ornament bottom-left"></div>
+        <div class="corner-ornament bottom-right"></div>
+        
+        <!-- ================= HALAMAN 1: SAMPUL ================= -->
+        <div class="page active" id="page1">
+            <div class="cover-header">
+                <div class="lontara-text">ᨕᨔᨀᨑ & ᨈᨗᨕ</div>
+                <div class="bugis-sub">A'MATA-MATA BOTING</div>
+                <div class="cover-names">Askar & Mhia</div>
+            </div>
+
+            <div class="cover-body">
+                <div class="cover-photo-frame">
+                    <img src="prewed.jpg.jpeg" alt="Foto Prewedding Askar & Mhia">
+                </div>
+
+                <div class="guest-card">
+                    <p style="font-size: 10px; letter-spacing: 1.5px; color: var(--accent-gold); text-transform: uppercase; font-weight: bold;">Kepada Yth.</p>
+                    <p style="font-weight: bold; color: var(--bugis-red); font-size: 15px; margin-top: 2px;">Bapak/Ibu/Saudara/i</p>
+                </div>
+            </div>
+
+            <div class="nav-footer">
+                <button class="btn" onclick="goToPage(2)">✉️ BUKA UNDANGAN</button>
+            </div>
+        </div>
+
+        <!-- ================= HALAMAN 2: DETAIL MEMPELAI & ACARA ================= -->
+        <div class="page" id="page2">
+            <div class="header-banner">
+                <div class="lontara-text">ᨓᨒᨗᨆᨈᨘᨒᨘ ᨕᨘᨑᨘᨔᨗ</div>
+                <div class="bugis-sub">WALIMATUL 'URSY</div>
+                <div class="names-header">Askar & Mhia</div>
+                <div class="date-badge">27 September 2026</div>
+            </div>
+
+            <div class="content">
+                <div class="ayat-box">
+                    "Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu pasangan hidup dari jenismu sendiri, supaya kamu merasa tenteram kepadanya..."
+                    <span class="ayat-title">(QS. Ar-Rum: 21)</span>
+                </div>
+
+                <p style="font-size: 11px; color: #666; margin-top: 5px;">Maha Suci Allah yang telah menciptakan makhluk-Nya berpasang-pasangan. Ya Allah rahmatilah pernikahan kami:</p>
+
+                <!-- SECTION KELUARGA / NAMA MEMPELAI -->
+                <div class="couple-section">
+                    <!-- Mempelai Pria -->
+                    <div class="mempelai-card">
+                        <div class="mempelai-name">Askar</div>
+                        <div class="mempelai-parents">
+                            Putra dari <strong>Aiptu Suardi</strong> <br>
+                            & <strong>Hj. Daraunga</strong>
+                        </div>
+                    </div>
+
+                    <div class="ampersand">&</div>
+
+                    <!-- Mempelai Wanita -->
+                    <div class="mempelai-card">
+                        <div class="mempelai-name">Mhia</div>
+                        <div class="mempelai-parents">
+                            Putri dari <strong>Bpk. [Nama Ayah Mhia]</strong> <br>
+                            & <strong>Ibu [Nama Ibu Mhia]</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- Box Detail Acara -->
+                <div class="details-box">
+                    <h3>AKAD & RESEPSI</h3>
+                    
+                    <div class="detail-item">
+                        <strong>Hari & Tanggal</strong>
+                        Minggu, 27 September 2026
+                    </div>
+                    
+                    <div class="detail-item">
+                        <strong>Waktu</strong>
+                        09.00 WITA - Selesai
+                    </div>
+                    
+                    <div class="detail-item">
+                        <strong>Lokasi</strong>
+                        Jl. Domba Nomor 31 <br>
+                        <small style="color: #555; font-style: italic;">(Sebelah selatan Masjid "Fastabiqul Khairat" Kelurahan Wala)</small>
+                    </div>
+                </div>
+
+                <!-- Tombol Lokasi -->
+                <div style="margin-top: 8px;">
+                    <a href="https://maps.app.goo.gl/vXJhvvGLjegLVHpo7" target="_blank" class="btn">
+                        📍 Buka Petunjuk Lokasi
+                    </a>
+                </div>
+            </div>
+
+            <div class="nav-footer">
+                <button class="btn" onclick="goToPage(1)">« Sampul</button>
+                <button class="btn" onclick="goToPage(3)">Save Date & Gift »</button>
+            </div>
+        </div>
+
+        <!-- ================= HALAMAN 3: SAVE THE DATE & AMPLOP DIGITAL ================= -->
+        <div class="page" id="page3">
+            <div class="header-banner">
+                <div class="lontara-text">ᨕᨔᨀᨑ & ᨈᨗᨕ</div>
+                <div class="bugis-sub">SAVE THE DATE & PASSOLO</div>
+                <div class="names-header">Askar & Mhia</div>
+                <div class="date-badge">27 September 2026</div>
+            </div>
+
+            <div class="content">
+                <!-- COUNTDOWN -->
+                <p style="font-size: 11px; color: var(--accent-gold); font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;">Menghitung Hari</p>
+                <div class="countdown-container">
+                    <div class="timer-box">
+                        <span class="timer-number" id="days">00</span>
+                        <span class="timer-label">Hari</span>
+                    </div>
+                    <div class="timer-box">
+                        <span class="timer-number" id="hours">00</span>
+                        <span class="timer-label">Jam</span>
+                    </div>
+                    <div class="timer-box">
+                        <span class="timer-number" id="minutes">00</span>
+                        <span class="timer-label">Menit</span>
+                    </div>
+                    <div class="timer-box">
+                        <span class="timer-number" id="seconds">00</span>
+                        <span class="timer-label">Detik</span>
+                    </div>
+                </div>
+
+                <div style="display: flex; justify-content: center; gap: 8px; margin-bottom: 5px;">
+                    <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Pernikahan+Askar+%26+Mhia&dates=20260927T010000Z/20260927T090000Z&details=Acara+Pernikahan+Askar+%26+Mhia.+Lokasi:+Jl.+Domba+No.+31&location=Jl.+Domba+No.+31" target="_blank" class="btn" style="padding: 7px 12px; font-size: 10px;">
+                        📅 Google Calendar
+                    </a>
+                    <button class="btn" onclick="downloadICS()" style="padding: 7px 12px; font-size: 10px; background: linear-gradient(135deg, var(--accent-gold), #8c6a15); color: #fff;">
+                        📲 Simpan (.ics)
+                    </button>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- AMPLOP DIGITAL -->
+                <p style="font-size: 11px; color: var(--accent-gold); font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;">Amplop Digital (Passolo)</p>
+                <p style="font-size: 11px; color: #666; margin-top: 4px;">Doa restu Anda adalah karunia terindah. Bagi yang ingin memberikan tanda kasih secara digital:</p>
+                
+                <div class="gift-container">
+                    <div class="bank-card">
+                        <div class="bank-header">
+                            <span class="bank-name">BANK SULSELBAR</span>
+                            <button class="btn-copy" onclick="copyToClipboard('1234567890', this)">📋 Salin</button>
+                        </div>
+                        <div class="account-number">1234567890</div>
+                        <div class="account-holder">a.n. Askar / Mhia</div>
+                    </div>
+
+                    <div class="bank-card">
+                        <div class="bank-header">
+                            <span class="bank-name" style="color: #008ce6;">DANA</span>
+                            <button class="btn-copy" onclick="copyToClipboard('081234567890', this)">📋 Salin</button>
+                        </div>
+                        <div class="account-number">081234567890</div>
+                        <div class="account-holder">a.n. Askar / Mhia</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-footer">
+                <button class="btn" onclick="goToPage(2)">« Detail Acara</button>
+                <button class="btn" onclick="goToPage(4)">Doa & RSVP »</button>
+            </div>
+        </div>
+
+        <!-- ================= HALAMAN 4: RSVP, DOA RESTU & PENUTUP ================= -->
+        <div class="page" id="page4">
+            <div class="header-banner">
+                <div class="lontara-text">ᨕᨔᨀᨑ & ᨈᨗᨕ</div>
+                <div class="bugis-sub">RSVP & MAPPASITURU</div>
+                <div class="names-header">Askar & Mhia</div>
+                <div class="date-badge">27 September 2026</div>
+            </div>
+
+            <div class="content">
+                <!-- FORM KIRIM UCAPAN & RSVP -->
+                <p style="font-size: 11px; color: var(--accent-gold); font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;">Konfirmasi Kehadiran & Doa</p>
+                <form class="rsvp-form" onsubmit="addWish(event)">
+                    <div class="form-group">
+                        <label>Nama Anda</label>
+                        <input type="text" id="guestName" class="form-control" placeholder="Tuliskan nama lengkap" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Konfirmasi Kehadiran</label>
+                        <select id="guestStatus" class="form-control">
+                            <option value="Hadir">Akan Hadir</option>
+                            <option value="Tidak Hadir">Berhalangan Hadir</option>
+                            <option value="Ragu-ragu">Masih Ragu</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Ucapan & Doa Restu</label>
+                        <textarea id="guestWish" class="form-control" rows="2" placeholder="Tuliskan doa restu untuk kedua mempelai..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn" style="width: 100%; margin-top: 4px; padding: 8px;">✨ Kirim Ucapan</button>
+                </form>
+
+                <!-- LIST BUKU UCAPAN DIGITAL -->
+                <div class="wishes-container" id="wishesList">
+                    <div class="wish-card">
+                        <div>
+                            <span class="wish-name">Keluarga Besar</span>
+                            <span class="wish-status">Hadir</span>
+                        </div>
+                        <div class="wish-text">Selamat atas pernikahan Askar & Mhia. Semoga menjadi keluarga yang Sakinah, Mawaddah, Warahmah!</div>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- PENUTUP KATA KATA ADAT BUGIS -->
+                <div class="closing-box">
+                    <div class="lontara-text" style="font-size: 18px;">ᨀᨘᨑᨘ ᨔᨘᨆᨂ ᨊ ᨔᨒᨆ</div>
+                    <p style="font-family: 'Cinzel', serif; font-size: 11px; color: var(--bright-gold); letter-spacing: 1px; margin-top: 2px;">"KURRU SUMANGA' NA SALAMA'"</p>
+                    <p style="font-size: 10px; margin-top: 8px; line-height: 1.5; color: #f2e3c6;">
+                        Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir memberikan doa restu.
+                    </p>
+                    <p style="font-family: 'Alex Brush', cursive; font-size: 28px; color: var(--bright-gold); margin-top: 8px;">Askar & Mhia</p>
+                    <p style="font-size: 10px; color: var(--bright-gold); margin-top: 4px;">Beserta Keluarga Besar Kedua Mempelai</p>
+                </div>
+            </div>
+
+            <div class="nav-footer">
+                <button class="btn" onclick="goToPage(3)">« Save Date & Gift</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Script JavaScript -->
+    <script>
+        function goToPage(pageNumber) {
+            document.getElementById('page1').classList.remove('active');
+            document.getElementById('page2').classList.remove('active');
+            document.getElementById('page3').classList.remove('active');
+            document.getElementById('page4').classList.remove('active');
+            document.getElementById('page' + pageNumber).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        // Script Hitung Mundur (Countdown Timer)
+        const targetDate = new Date("September 27, 2026 09:00:00").getTime();
+
+        const timer = setInterval(function() {
+            const now = new Date().getTime();
+            const difference = targetDate - now;
+
+            if (difference > 0) {
+                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+                document.getElementById("days").innerText = days < 10 ? "0" + days : days;
+                document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
+                document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
+                document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
+            } else {
+                clearInterval(timer);
+                document.querySelector(".countdown-container").innerHTML = "<b>Acara Sedang Berlangsung!</b>";
+            }
+        }, 1000);
+
+        // Fitur Salin Nomor Rekening
+        function copyToClipboard(text, btnElement) {
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = btnElement.innerText;
+                btnElement.innerText = "✓ Tersalin!";
+                btnElement.style.background = "#28a745";
+                btnElement.style.color = "#fff";
+                setTimeout(() => {
+                    btnElement.innerText = originalText;
+                    btnElement.style.background = "";
+                    btnElement.style.color = "";
+                }, 2000);
+            }).catch(err => {
+                alert("Gagal menyalin nomor.");
+            });
+        }
+
+        // Fitur Tambah Ucapan & RSVP
+        function addWish(event) {
+            event.preventDefault();
+            const name = document.getElementById('guestName').value;
+            const status = document.getElementById('guestStatus').value;
+            const wish = document.getElementById('guestWish').value;
+
+            const wishesList = document.getElementById('wishesList');
+            
+            const newWishCard = document.createElement('div');
+            newWishCard.className = 'wish-card';
+            newWishCard.innerHTML = `
+                <div>
+                    <span class="wish-name">${name}</span>
+                    <span class="wish-status">${status}</span>
+                </div>
+                <div class="wish-text">${wish}</div>
+            `;
+
+            wishesList.prepend(newWishCard);
+
+            // Reset Form
+            document.getElementById('guestName').value = '';
+            document.getElementById('guestWish').value = '';
+            alert('Terima kasih atas ucapan dan doa restunya!');
+        }
+
+        // Fitur Download File .ICS
+        function downloadICS() {
+            const icsData = 
+`BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Undangan Pernikahan Askar Mhia//ID
+BEGIN:VEVENT
+SUMMARY:Pernikahan Askar & Mhia
+DESCRIPTION:Acara Pernikahan Askar & Mhia. Ditunggu kehadirannya!
+LOCATION:Jl. Domba Nomor 31 (Sebelah selatan Masjid Fastabiqul Khairat Kelurahan Wala)
+DTSTART:20260927T010000Z
+DTEND:20260927T090000Z
+END:VEVENT
+END:VCALENDAR`;
+
+            const blob = new Blob([icsData], { type: 'text/calendar;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.setAttribute('download', 'Pernikahan-Askar-Mhia.ics');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+
+</body>
+</html>
